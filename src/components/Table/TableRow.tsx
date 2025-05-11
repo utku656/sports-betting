@@ -14,7 +14,9 @@ const TableRow: React.FC<TableRowProps> = ({
   };
 
   const handleOddClick = (odd: number, oddType: string) => {
-    onOddSelect(match.id, odd, oddType);
+    if (odd !== 0) {
+      onOddSelect(match.id, odd, oddType);
+    }
   };
 
   return (
@@ -24,44 +26,51 @@ const TableRow: React.FC<TableRowProps> = ({
       <td
         className={`odd-cell ${isSelected("win") ? "selected" : ""}`}
         onClick={() => handleOddClick(match.odds.win, "win")}
+        style={{ cursor: match.odds.win !== 0 ? "pointer" : "default" }}
       >
-        {match.odds.win.toFixed(2)}
+        {match.odds.win === 0 ? "-" : match.odds.win.toFixed(2)}
       </td>
       <td
         className={`odd-cell ${isSelected("draw") ? "selected" : ""}`}
         onClick={() => handleOddClick(match.odds.draw, "draw")}
+        style={{ cursor: match.odds.draw !== 0 ? "pointer" : "default" }}
       >
-        {match.odds.draw.toFixed(2)}
+        {match.odds.draw === 0 ? "-" : match.odds.draw.toFixed(2)}
       </td>
       <td
         className={`odd-cell ${isSelected("lose") ? "selected" : ""}`}
         onClick={() => handleOddClick(match.odds.lose, "lose")}
+        style={{ cursor: match.odds.lose !== 0 ? "pointer" : "default" }}
       >
-        {match.odds.lose.toFixed(2)}
+        {match.odds.lose === 0 ? "-" : match.odds.lose.toFixed(2)}
       </td>
       <td
         className={`odd-cell ${isSelected("under") ? "selected" : ""}`}
         onClick={() => handleOddClick(match.odds.under, "under")}
+        style={{ cursor: match.odds.under !== 0 ? "pointer" : "default" }}
       >
-        {match.odds.under.toFixed(2)}
+        {match.odds.under === 0 ? "-" : match.odds.under.toFixed(2)}
       </td>
       <td
         className={`odd-cell ${isSelected("over") ? "selected" : ""}`}
         onClick={() => handleOddClick(match.odds.over, "over")}
+        style={{ cursor: match.odds.over !== 0 ? "pointer" : "default" }}
       >
-        {match.odds.over.toFixed(2)}
+        {match.odds.over === 0 ? "-" : match.odds.over.toFixed(2)}
       </td>
       <td
-        className={`odd-cell ${isSelected("firstHalf") ? "selected" : ""}`}
-        onClick={() => handleOddClick(match.odds.firstHalf, "firstHalf")}
+        className={`odd-cell ${isSelected("h1") ? "selected" : ""}`}
+        onClick={() => handleOddClick(match.odds.h1, "h1")}
+        style={{ cursor: match.odds.h1 !== 0 ? "pointer" : "default" }}
       >
-        {match.odds.firstHalf.toFixed(2)}
+        {match.odds.h1 === 0 ? "-" : match.odds.h1.toFixed(2)}
       </td>
       <td
-        className={`odd-cell ${isSelected("secondHalf") ? "selected" : ""}`}
-        onClick={() => handleOddClick(match.odds.secondHalf, "secondHalf")}
+        className={`odd-cell ${isSelected("h2") ? "selected" : ""}`}
+        onClick={() => handleOddClick(match.odds.h2, "h2")}
+        style={{ cursor: match.odds.h2 !== 0 ? "pointer" : "default" }}
       >
-        {match.odds.secondHalf.toFixed(2)}
+        {match.odds.h2 === 0 ? "-" : match.odds.h2.toFixed(2)}
       </td>
     </tr>
   );

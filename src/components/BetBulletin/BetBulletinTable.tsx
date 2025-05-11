@@ -10,43 +10,12 @@ import {
 import { fetchMatches } from "../../store/slices/matchesSlice";
 import {
   logMatchDetailEvent,
-  logAddToCartEvent,
-  logRemoveFromCartEvent,
+  logAddToCardEvent,
+  logRemoveFromCardEvent,
 } from "../../firebase/analytics";
-
-import type { Match } from "../../store/slices/matchesSlice";
-import type { BetMatch } from "./Bulletin-types";
 import SearchBar from "../SearchBar/SearchBar";
 import "./BetBulletin.scss";
-
-const transformMatchData = (match: Match): BetMatch | null => {
-  const bookmaker = match.bookmakers[0];
-  if (!bookmaker) return null;
-  const h2hMarket = bookmaker.markets?.find((m) => m.key === "h2h");
-  const totalsMarket = bookmaker.markets?.find((m) => m.key === "totals");
-  const spreadsMarket = bookmaker.markets?.find((m) => m.key === "spreads");
-
-  return {
-    id: match.id,
-    date: new Date(match.commence_time).toLocaleString(),
-    teams: `${match.home_team} vs ${match.away_team}`,
-    odds: {
-      win:
-        h2hMarket?.outcomes.find((o) => o.name === match.home_team)?.price || 0,
-      draw: h2hMarket?.outcomes.find((o) => o.name === "Draw")?.price || 0,
-      lose:
-        h2hMarket?.outcomes.find((o) => o.name === match.away_team)?.price || 0,
-      under: totalsMarket?.outcomes.find((o) => o.name === "Under")?.price || 0,
-      over: totalsMarket?.outcomes.find((o) => o.name === "Over")?.price || 0,
-      firstHalf:
-        spreadsMarket?.outcomes.find((o) => o.name === match.home_team)
-          ?.price || 0,
-      secondHalf:
-        spreadsMarket?.outcomes.find((o) => o.name === match.away_team)
-          ?.price || 0,
-    },
-  };
-};
+import { transformMatchData } from "../../utils/helpers";
 
 const BetBulletinTable: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -71,7 +40,7 @@ const BetBulletinTable: React.FC = () => {
           oddType,
         })
       );
-      logAddToCartEvent(matchId, match.teams, oddType, odd);
+      logAddToCardEvent(matchId, match.teams, oddType, odd);
       logMatchDetailEvent(matchId, match.teams);
     }
   };
@@ -82,7 +51,7 @@ const BetBulletinTable: React.FC = () => {
     const match = transformMatchData(apiMatch);
     if (match) {
       dispatch(removeSelection(matchId));
-      logRemoveFromCartEvent(matchId, match.teams);
+      logRemoveFromCardEvent(matchId, match.teams);
     }
   };
 

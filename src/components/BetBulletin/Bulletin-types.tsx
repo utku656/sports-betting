@@ -8,7 +8,7 @@ export interface BetMatch {
     lose: number;
     under: number;
     over: number;
-    firstHalf: number;
-    secondHalf: number;
+    h1: number;
+    h2: number;
   };
 }
